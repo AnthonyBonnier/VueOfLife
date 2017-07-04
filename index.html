@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vue Of Life</title>
+  <script src="https://unpkg.com/vue"></script>
+  <link rel="stylesheet" type="text/css" href="vueOfLifeStyle.css">
+</head>
+<body>
+  <div id="app">
+    <div class="cellTable">
+		<template v-for="">
+			<cell myCell="{{}}"></cell>
+		</template>
+	</div>
+  </div>
+
+  <script>
+	const CELL_STATE = {
+		DEAD: 0, // no cell 
+		ALIVE: 1, // blue cell
+		NEWBORN: 2, // green cell
+		VOLATILE: 3, // yellow cell
+		DYING: 4 // red cell
+	};
+	var cellCounter = 0;
+  
+	Vue.component('cell', {
+		props: {
+			myCell: {
+				type: Cell,
+				required: true
+			}
+		},
+		template: '<div class="cell"></div>',
+	});
+  
+    var app = new Vue({
+      el: '#app',
+      data: {
+		
+      }
+    });
+	
+	class Cell {
+		constructor() {
+			this.currentState = CELL_STATE.DEAD;
+			this.nextState = CELL_STATE.DEAD;
+			this.neighbors = []; // adjacents cells
+		}
+		
+		isDead() {
+			return this.currentState === CELL_STATE.DEAD;
+		}
+		
+		changeState() {
+			
+		}
+	}
+  </script>
+</body>
+</html>
