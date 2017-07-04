@@ -1,21 +1,26 @@
-.cell: {
-	display: inline-block;
-	border: 1px solid black;
-	width: 5px;
-	height: 5px;
+.cell {
+    display: inline-block;
+    border: 1px solid black;
+    width: 5px;
+    height: 5px;
 }
-.cell.dead: {
-	background-color: lightgrey;
+
+.cell.dead {
+    background-color: lightgrey;
 }
-.cell.alive: {
-	background-color: blue;
+
+.cell.alive {
+    background-color: blue;
 }
-.cell.newborn: {
-	background-color: green;
+
+.cell.newborn {
+    background-color: green;
 }
-.cell.volatile: {
-	background-color: yellow;
+
+.cell.volatile {
+    background-color: yellow;
 }
-.cell.dying: {
-	background-color: red;
+
+.cell.dying {
+    background-color: red;
 }

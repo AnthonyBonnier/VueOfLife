@@ -1,61 +1,80 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Vue Of Life</title>
-  <script src="https://unpkg.com/vue"></script>
-  <link rel="stylesheet" type="text/css" href="vueOfLifeStyle.css">
-</head>
-<body>
-  <div id="app">
-    <div class="cellTable">
-		<template v-for="">
-			<cell myCell="{{}}"></cell>
-		</template>
-	</div>
-  </div>
 
-  <script>
-	const CELL_STATE = {
-		DEAD: 0, // no cell 
-		ALIVE: 1, // blue cell
-		NEWBORN: 2, // green cell
-		VOLATILE: 3, // yellow cell
-		DYING: 4 // red cell
-	};
-	var cellCounter = 0;
-  
-	Vue.component('cell', {
-		props: {
-			myCell: {
-				type: Cell,
-				required: true
-			}
-		},
-		template: '<div class="cell"></div>',
-	});
-  
-    var app = new Vue({
-      el: '#app',
-      data: {
-		
-      }
-    });
-	
-	class Cell {
-		constructor() {
-			this.currentState = CELL_STATE.DEAD;
-			this.nextState = CELL_STATE.DEAD;
-			this.neighbors = []; // adjacents cells
-		}
-		
-		isDead() {
-			return this.currentState === CELL_STATE.DEAD;
-		}
-		
-		changeState() {
-			
-		}
-	}
-  </script>
+<head>
+    <title>Vue Of Life</title>
+    <script src="https://unpkg.com/vue"></script>
+    <link rel="stylesheet" type="text/css" href="vueOfLifeStyle.css">
+</head>
+
+<body>
+    <div id="app">
+        <div class="cellTable">
+            <!--template v-for=""-->
+            <!--cell v-bind:ctx="oneCell"></cell-->
+            <div class="cell" v-bind:class="{red: cell.isDead(), blue: cell.isAlive(), green: cell.isNewBorn(), yellow: cell.isVolatile()}" v-on:click="cell.changeState()"></div>
+            <!--/template-->
+        </div>
+    </div>
+
+    <script>
+        function Cell() {
+            this.currentState = CELL_STATE.DEAD;
+            this.nextState = CELL_STATE.DEAD;
+            this.neighbors = []; // adjacents cells
+
+            this.isDead = function() {
+                return this.currentState === CELL_STATE.DEAD;
+            }
+            this.isAlive = function() {
+                return this.currentState === CELL_STATE.ALIVE;
+            }
+            this.isNewBorn = function() {
+                return this.currentState === CELL_STATE.NEWBORN;
+            }
+            this.isVolatile = function() {
+                return this.currentState === CELL_STATE.VOLATILE;
+            }
+            this.isDying = function() {
+                return this.currentState === CELL_STATE.DYING;
+            }
+
+            this.changeState = function() {
+                this.currentState++;
+                if (this.currentState > CELL_STATE.DYING) {
+                    this.currentState = CELL_STATE.DEAD;
+                }
+            }
+        }
+
+        const CELL_STATE = {
+            DEAD: 0, // no cell 
+            ALIVE: 1, // blue cell
+            NEWBORN: 2, // green cell
+            VOLATILE: 3, // yellow cell
+            DYING: 4 // red cell
+        };
+        var cellCounter = 0;
+
+        /*
+        Vue.component('cell', {
+            props: ['ctx'],
+            template: '<div class="cell" v-bind:class="{red: this.ctx.isDead(), blue: this.ctx.isAlive(), green: this.ctx.isNewBorn(), yellow: this.ctx.isVolatile()}" v-on:click="this.ctx.changeState()"></div>',
+        });
+        */
+
+        const oneCell = new Cell();
+        console.log(oneCell);
+
+        var app = new Vue({
+            el: '#app',
+            methods: {
+                cell: function() {
+                    return oneCell;
+                }
+            }
+        });
+    </script>
 </body>
+
 </html>
